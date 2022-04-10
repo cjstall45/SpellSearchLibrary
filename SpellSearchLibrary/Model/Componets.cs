@@ -10,6 +10,6 @@ namespace SpellSearchLibrary.Model
     {
         public bool v { get; set; }
         public bool s { get; set; }
-        public Material m { get; set; }
+        //need to self assign m for if material class is needed
     }
 }

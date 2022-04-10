@@ -10,6 +10,6 @@ namespace SpellSearchLibrary.Model
     public class CastingTime
     {
         public int number { get; set; }
-        public CastingUnit unit { get; set;}
+        public string unit { get; set;}
     }
 }

@@ -12,10 +12,27 @@ namespace SpellSearchLibrary
 {
     public partial class Form1 : Form
     {
-        public Form1()
+        private Controller controller;
+        public Form1(Controller controls)
         {
             InitializeComponent();
+            controller = controls;
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void uxSearchButton_Click(object sender, EventArgs e)
+        {
+            var results = controller.GetSpellsByLevel((int) uxLevelUpDown.Value);
+            StringBuilder sb = new StringBuilder();
+            foreach(var spell in results)
+            {
+                sb.Append(spell.name + "\n");
+            }
+            uxResultsTextBox.Text = sb.ToString();
+        }
     }
 }
