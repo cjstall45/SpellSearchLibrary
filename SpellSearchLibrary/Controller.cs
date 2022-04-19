@@ -11,12 +11,12 @@ namespace SpellSearchLibrary
     public class Controller
     {
         private HttpClient client = new HttpClient();
-        public SpellList Spells;
+        public List<Spell> Spells = new List<Spell>();
 
         public Controller()
         {
             var rawJson = GetSpells().Result;
-            Spells = JsonSerializer.Deserialize<SpellList>(rawJson);
+             ParseSpells(JsonSerializer.Deserialize<JsonElement>(rawJson));
         }
 
         private async Task<string> GetSpells()
@@ -24,10 +24,21 @@ namespace SpellSearchLibrary
              return await client.GetStringAsync("https://raw.githubusercontent.com/5etools-mirror-1/5etools-mirror-1.github.io/master/data/spells/spells-phb.json");
         }
 
-        public IEnumerable<Spell> GetSpellsByLevel(int level)
+        private void ParseSpells(JsonElement data)
         {
+            JsonElement spellArray = data.GetProperty("spell");
+            foreach(JsonElement spellData in spellArray.EnumerateArray())
+            {
+                var spell = new Spell() { name = spellData.GetProperty("name").ToString() };
+                Spells.Add(spell);
+            }
+        }
+
+       public IEnumerable<Spell> GetSpellsByLevel(int level)
+        {
+            return Spells;
             List<Spell> ReturnSpells = new List<Spell>();
-            foreach(var spell in Spells.spell)
+            foreach(var spell in Spells)
             {
                 if(spell.level == level)
                 {

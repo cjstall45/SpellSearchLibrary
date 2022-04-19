@@ -30,7 +30,7 @@ namespace SpellSearchLibrary
             StringBuilder sb = new StringBuilder();
             foreach(var spell in results)
             {
-                sb.Append(spell.name + "\n");
+                sb.Append(spell.name + ", ");
             }
             uxResultsTextBox.Text = sb.ToString();
         }
