@@ -10,10 +10,10 @@ using System.Windows.Forms;
 
 namespace SpellSearchLibrary
 {
-    public partial class Form1 : Form
+    public partial class MainMenu : Form
     {
         private Controller controller;
-        public Form1(Controller controls)
+        public MainMenu(Controller controls)
         {
             InitializeComponent();
             controller = controls;
@@ -24,15 +24,29 @@ namespace SpellSearchLibrary
 
         }
 
-        private void uxSearchButton_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
-            var results = controller.GetSpellsByLevel((int) uxLevelUpDown.Value);
-            StringBuilder sb = new StringBuilder();
-            foreach(var spell in results)
-            {
-                sb.Append(spell.name + ", ");
-            }
-            uxResultsTextBox.Text = sb.ToString();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

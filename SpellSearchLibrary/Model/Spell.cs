@@ -21,7 +21,8 @@ namespace SpellSearchLibrary.Model
         public SpellRange range { get; set; }
         public Components components { get; set; }
         public IEnumerable<SpellDuration> duration { get; set; }
-        //public List<string> entries { get; set; }
+        public List<string> entries { get; set; }
+        public List<string> classes { get; set; }
 
 
         [JsonExtensionData]

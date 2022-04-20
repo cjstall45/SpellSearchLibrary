@@ -15,18 +15,17 @@ namespace SpellSearchLibrary
             InitializeComponent();
         }
 
-
-        private void SearchDisplay_Load(object sender, EventArgs e)
+        private void AddToSpellBookButton_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void SpellNameLabel_Click(object sender, EventArgs e)
+        private void ShowDiscriptionButton_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void SearchButton_Click(object sender, EventArgs e)
         {
 
         }

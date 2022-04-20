@@ -19,7 +19,7 @@ namespace SpellSearchLibrary
             Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1(new Controller()));
+            Application.Run(new MainMenu(new Controller()));
         }
 
     }
