@@ -13,14 +13,14 @@ namespace SpellSearchLibrary.Model
     public class Spell
     {
         public string name { get; set; }
-        public string source { get; set; }
+        public SourceBook source { get; set; }
         public int page { get; set; }
         public int level { get; set; }
-        public string school { get; set; }
-        public IEnumerable<CastingTime> time { get; set; }
+        public SpellSchool school { get; set; }
+        public CastingTime time { get; set; }
         public SpellRange range { get; set; }
         public Components components { get; set; }
-        public IEnumerable<SpellDuration> duration { get; set; }
+        public SpellDuration duration { get; set; }
         public List<string> entries { get; set; }
         public List<string> classes { get; set; }
 

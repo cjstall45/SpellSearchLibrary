@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using SpellSearchLibrary.Model.Enums;
 
 namespace SpellSearchLibrary
 {
@@ -29,10 +30,45 @@ namespace SpellSearchLibrary
             JsonElement spellArray = data.GetProperty("spell");
             foreach(JsonElement spellData in spellArray.EnumerateArray())
             {
-                var spell = new Spell() { name = spellData.GetProperty("name").ToString() };
+                var spell = new Spell();
+                spell.name = spellData.GetProperty("name").ToString();
+                SourceBook book;
+                if (Enum.TryParse(spellData.GetProperty("source").ToString(),out book))
+                {
+                    spell.source = book;
+                }
+                spell.page = spellData.GetProperty("page").GetInt32();
+                spell.level = spellData.GetProperty("level").GetInt32();
+                var school = spellData.GetProperty("school").ToString();
+                spell.school = ConvetStringtoSpellSchool(school);
                 Spells.Add(spell);
             }
         }
+
+       private SpellSchool ConvetStringtoSpellSchool(string school)
+       {
+            switch (school)
+            {
+                case "C":
+                    return SpellSchool.Conjuration;
+                case "A":
+                    return SpellSchool.Abjuration;
+                case "T":
+                    return SpellSchool.Transmutation;
+                case "E":
+                    return SpellSchool.Enchantment;
+                case "N":
+                    return SpellSchool.Necromancy;
+                case "D":
+                    return SpellSchool.Divination;
+                case "V":
+                    return SpellSchool.Evocation;
+                case "I":
+                    return SpellSchool.Illusion;
+                default:
+                    return SpellSchool.Abjuration;
+            }
+       } 
 
        public IEnumerable<Spell> GetSpellsByLevel(int level)
         {
