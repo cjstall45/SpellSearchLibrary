@@ -11,9 +11,7 @@ namespace SpellSearchLibrary.Model
 {
     public class SpellDuration
     {
-        public string type { get; set; }
-
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement>? ExtensionData { get; set; }
+        public DurationType type { get; set; }
+        public TimedDuration? time { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace SpellSearchLibrary.Model
     {
         public TimeUnit type { get; set; }
         public int amount { get; set; }
-        public bool cosentration { get; set; }
+        public bool concentration { get; set; }
 
     }
 }

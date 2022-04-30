@@ -9,7 +9,7 @@ namespace SpellSearchLibrary.Model
 {
     public class SpellRange
     {
-        public string type { get; set; }
-        public Distance distance { get; set; }
+        public SpellShape type { get; set; }
+        public Distance? distance { get; set; }
     }
 }

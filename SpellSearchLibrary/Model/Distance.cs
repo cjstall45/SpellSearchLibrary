@@ -9,7 +9,7 @@ namespace SpellSearchLibrary.Model
 {
     public class Distance
     {
-        public string type { get; set; }
+        public DistanceUnits type { get; set; }
         public int? amount { get; set; }
     }
 }

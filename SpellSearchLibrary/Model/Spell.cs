@@ -22,10 +22,6 @@ namespace SpellSearchLibrary.Model
         public Components components { get; set; }
         public SpellDuration duration { get; set; }
         public List<string> entries { get; set; }
-        public List<string> classes { get; set; }
-
-
-        [JsonExtensionData]
-        public Dictionary<string, JsonElement>? ExtensionData { get; set; }
+        public List<CharacterClass> classes { get; set; }
     }
 }

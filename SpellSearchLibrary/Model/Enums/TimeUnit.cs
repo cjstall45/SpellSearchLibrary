@@ -2,7 +2,7 @@
 {
     public enum TimeUnit
     {
-        rount,
+        round,
         minute,
         hour,
         day
