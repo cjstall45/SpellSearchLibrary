@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using SpellSearchLibrary.Model.Enums;
+using System.Linq;
 
 namespace SpellSearchLibrary
 {
@@ -17,18 +18,18 @@ namespace SpellSearchLibrary
         public Controller()
         {
             var rawJson = GetSpells().Result;
-             ParseSpells(JsonSerializer.Deserialize<JsonElement>(rawJson));
+            ParseSpells(JsonSerializer.Deserialize<JsonElement>(rawJson));
         }
 
         private async Task<string> GetSpells()
         {
-             return await client.GetStringAsync("https://raw.githubusercontent.com/5etools-mirror-1/5etools-mirror-1.github.io/master/data/spells/spells-phb.json");
+            return await client.GetStringAsync("https://raw.githubusercontent.com/5etools-mirror-1/5etools-mirror-1.github.io/master/data/spells/spells-phb.json");
         }
 
         private void ParseSpells(JsonElement data)
         {
             JsonElement spellArray = data.GetProperty("spell");
-            foreach(JsonElement spellData in spellArray.EnumerateArray())
+            foreach (JsonElement spellData in spellArray.EnumerateArray())
             {
                 //parse spell name 
                 var spell = new Spell();
@@ -36,7 +37,7 @@ namespace SpellSearchLibrary
 
                 //parse book spell is in
                 SourceBook book;
-                if (Enum.TryParse(spellData.GetProperty("source").GetString(),out book))
+                if (Enum.TryParse(spellData.GetProperty("source").GetString(), out book))
                 {
                     spell.source = book;
                 }
@@ -65,7 +66,7 @@ namespace SpellSearchLibrary
 
                 //parse all componets
                 spell.components = ParseComponets(spellData.GetProperty("components"));
-                
+
                 //duration
                 spell.duration = ParseSpellDuration(spellData.GetProperty("duration")[0]);
 
@@ -102,7 +103,7 @@ namespace SpellSearchLibrary
                 default:
                     return SpellSchool.Abjuration;
             }
-        } 
+        }
 
         private SpellRange ParseSpellRange(JsonElement range)
         {
@@ -163,7 +164,7 @@ namespace SpellSearchLibrary
             //material
             if (comps.TryGetProperty("m", out compsStorage))
             {
-                
+
                 if (compsStorage.ValueKind == JsonValueKind.Object)
                 {
                     components.m = compsStorage.GetProperty("text").GetString();
@@ -189,7 +190,7 @@ namespace SpellSearchLibrary
             {
                 newDuration.type = type;
             }
-            if(newDuration.type == DurationType.timed)
+            if (newDuration.type == DurationType.timed)
             {
                 TimedDuration timed = new TimedDuration();
                 TimeUnit unit;
@@ -199,7 +200,7 @@ namespace SpellSearchLibrary
                     timed.type = unit;
                 }
                 JsonElement temp;
-                if(duration.TryGetProperty("concentration", out temp))
+                if (duration.TryGetProperty("concentration", out temp))
                 {
                     timed.concentration = true;
                 }
@@ -220,17 +221,18 @@ namespace SpellSearchLibrary
         {
             List<string> returnValue = new List<string>();
             JsonElement entries = spell.GetProperty("entries");
-            foreach(JsonElement entry in entries.EnumerateArray())
+            foreach (JsonElement entry in entries.EnumerateArray())
             {
-                if(entry.ValueKind == JsonValueKind.Object)
+                if (entry.ValueKind == JsonValueKind.Object)
                 {
                     switch (entry.GetProperty("type").GetString())
                     {
                         case "entries":
-                            returnValue.Add(entry.GetProperty("name").GetString());
-                            foreach(JsonElement entryString in entry.GetProperty("entries").EnumerateArray())
+                            returnValue.Add(" ");
+                            returnValue.Add(entry.GetProperty("name").GetString().ToUpper());
+                            foreach (JsonElement entryString in entry.GetProperty("entries").EnumerateArray())
                             {
-                                if(entryString.ValueKind != JsonValueKind.Object)
+                                if (entryString.ValueKind != JsonValueKind.Object)
                                 {
                                     returnValue.Add(entryString.GetString());
                                 }
@@ -262,10 +264,11 @@ namespace SpellSearchLibrary
                 }
             }
             JsonElement higherLevels;
-            if(spell.TryGetProperty("entriesHigherLevel", out higherLevels))
+            if (spell.TryGetProperty("entriesHigherLevel", out higherLevels))
             {
-                returnValue.Add("At Higher Levels, ");
-                foreach(JsonElement element in higherLevels[0].GetProperty("entries").EnumerateArray())
+                returnValue.Add(" ");
+                returnValue.Add("AT HIGHER LEVELS, ");
+                foreach (JsonElement element in higherLevels[0].GetProperty("entries").EnumerateArray())
                 {
                     returnValue.Add(element.GetString());
                 }
@@ -276,12 +279,12 @@ namespace SpellSearchLibrary
         private List<CharacterClass> ParseClasses(JsonElement classes)
         {
             List<CharacterClass> SpellClasses = new List<CharacterClass>();
-            foreach(JsonElement newClass in classes.EnumerateArray())
+            foreach (JsonElement newClass in classes.EnumerateArray())
             {
                 CharacterClass character;
                 if (Enum.TryParse(newClass.GetProperty("name").GetString(), out character))
                 {
-                    if(character != CharacterClass.Artificer)
+                    if (character != CharacterClass.Artificer)
                     {
                         SpellClasses.Add(character);
                     }
@@ -293,19 +296,91 @@ namespace SpellSearchLibrary
             }
             return SpellClasses;
         }
-
-        public IEnumerable<Spell> GetSpellsByLevel(int level)
+        //  CharacterClass classes
+        public List<Spell> SearchForSpellsByName(List<Spell> currentSpellList, string spellName)
         {
-            return Spells;
-            List<Spell> ReturnSpells = new List<Spell>();
-            foreach(var spell in Spells)
+            return currentSpellList.FindAll(s => s.name.ToLower().Equals(spellName.ToLower()));
+        }
+
+        public List<Spell> SearchForSpellsByLevel(List<Spell> currentSpellList, int minSpellLevel, int maxSpellLevel)
+        {
+            return currentSpellList.FindAll(s => s.level >= minSpellLevel && s.level <= maxSpellLevel);
+        }
+
+        public List<Spell> SearchForSpellsByCastingTime(List<Spell> currentSpellList, int castingTimeAmount, CastingUnit unit)
+        {
+            return currentSpellList.FindAll(s => s.time.number.Equals(castingTimeAmount) && s.time.unit.Equals(unit));
+        }
+
+        public List<Spell> SearchForSpellsBySchool(List<Spell> currentSpellList, SpellSchool school)
+        {
+            return currentSpellList.FindAll(s => s.school.Equals(school));
+        }
+
+        public List<Spell> SearchForSpellByComponets(List<Spell> currentSpellList, bool v, bool ss, bool m)
+        {
+            if (m)
             {
-                if(spell.level == level)
-                {
-                    ReturnSpells.Add(spell);
-                }
+                return currentSpellList.FindAll(s => s.components.v == v && s.components.s == ss && !string.IsNullOrEmpty(s.components.m));
             }
-            return ReturnSpells;
+            else
+            {
+                return currentSpellList.FindAll(s => s.components.v.Equals(v) && s.components.s == ss && string.IsNullOrEmpty(s.components.m));
+            }
+        }
+
+        public List<Spell> SearchForSpellsByClass(List<Spell> currentSpellList, CharacterClass characterClass)
+        {
+            return currentSpellList.FindAll(s => s.classes.Contains(characterClass));
+        }
+
+        public List<DisplaySpell> ConvertSpellsToDisplaySpells(List<Spell> spellList)
+        {
+            List<DisplaySpell> DisplaySpellList = new List<DisplaySpell>();
+            foreach(Spell s in spellList)
+            {
+                DisplaySpell newSpell = new DisplaySpell();
+                newSpell.Name = s.name;
+                newSpell.Source = s.source;
+                newSpell.Page = s.page;
+                newSpell.Level = s.level;
+                newSpell.School = s.school;
+                newSpell.Time = s.time.number.ToString() + " " + s.time.unit.ToString();
+                newSpell.Shape = s.range.type;
+                if(s.range.distance != null)
+                {
+                    newSpell.Distance = s.range.distance.amount.ToString() + " " + s.range.distance.type.ToString();
+                }
+                newSpell.Somantic = s.components.s;
+                newSpell.Verbal = s.components.v;
+                newSpell.Material = s.components.m;
+                //duration
+                if(s.duration.type != DurationType.timed)
+                {
+                    newSpell.Duration = s.duration.type.ToString();
+                }
+                else
+                {
+                    if (s.duration.time.concentration)
+                    {
+                        newSpell.Duration = s.duration.time.amount.ToString() + " " + s.duration.time.type.ToString() + " while concentrating";
+                    }
+                    else
+                    {
+                        newSpell.Duration = s.duration.time.amount.ToString() + " " + s.duration.time.type.ToString();
+                    }
+                }
+                newSpell.Entries = s.entries;
+                StringBuilder sb = new StringBuilder();
+                foreach(CharacterClass c in s.classes)
+                {
+                    sb.Append(c.ToString());
+                    sb.Append(" ");
+                }
+                newSpell.Classes = sb.ToString();
+                DisplaySpellList.Add(newSpell);
+            }
+            return DisplaySpellList;
         }
     }
 }

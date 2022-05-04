@@ -34,6 +34,8 @@
             this.SpellNameTextBox = new System.Windows.Forms.TextBox();
             this.MinSpellLevelLable = new System.Windows.Forms.Label();
             this.MinSpellLevelUpDown = new System.Windows.Forms.NumericUpDown();
+            this.MaxSpellLevelLabel = new System.Windows.Forms.Label();
+            this.MaxSpellLevelUpDown = new System.Windows.Forms.NumericUpDown();
             this.CastingTimeLabel = new System.Windows.Forms.Label();
             this.CastingTimeComboBox = new System.Windows.Forms.ComboBox();
             this.SpellSchoolLabel = new System.Windows.Forms.Label();
@@ -46,8 +48,6 @@
             this.ShowDiscriptionButton = new System.Windows.Forms.Button();
             this.AddToSpellBookButton = new System.Windows.Forms.Button();
             this.SearchOptionsLabel = new System.Windows.Forms.Label();
-            this.MaxSpellLevelUpDown = new System.Windows.Forms.NumericUpDown();
-            this.MaxSpellLevelLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.SpellDataGridView)).BeginInit();
             this.SearchMenuPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.MinSpellLevelUpDown)).BeginInit();
@@ -56,13 +56,14 @@
             // 
             // SpellDataGridView
             // 
-            this.SpellDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.SpellDataGridView.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SpellDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.SpellDataGridView.Location = new System.Drawing.Point(281, 11);
             this.SpellDataGridView.Name = "SpellDataGridView";
-            this.SpellDataGridView.Size = new System.Drawing.Size(1088, 547);
+            this.SpellDataGridView.ReadOnly = true;
+            this.SpellDataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.SpellDataGridView.Size = new System.Drawing.Size(1363, 547);
             this.SpellDataGridView.TabIndex = 1;
             this.SpellDataGridView.Text = "dataGridView1";
             // 
@@ -86,7 +87,7 @@
             this.SearchMenuPanel.Location = new System.Drawing.Point(15, 39);
             this.SearchMenuPanel.Name = "SearchMenuPanel";
             this.SearchMenuPanel.Padding = new System.Windows.Forms.Padding(1);
-            this.SearchMenuPanel.Size = new System.Drawing.Size(260, 436);
+            this.SearchMenuPanel.Size = new System.Drawing.Size(260, 446);
             this.SearchMenuPanel.TabIndex = 2;
             this.SearchMenuPanel.WrapContents = false;
             // 
@@ -129,6 +130,33 @@
             this.MinSpellLevelUpDown.Size = new System.Drawing.Size(254, 23);
             this.MinSpellLevelUpDown.TabIndex = 2;
             // 
+            // MaxSpellLevelLabel
+            // 
+            this.MaxSpellLevelLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.MaxSpellLevelLabel.Location = new System.Drawing.Point(4, 111);
+            this.MaxSpellLevelLabel.Name = "MaxSpellLevelLabel";
+            this.MaxSpellLevelLabel.Size = new System.Drawing.Size(254, 26);
+            this.MaxSpellLevelLabel.TabIndex = 0;
+            this.MaxSpellLevelLabel.Text = "Maximum Spell Level:";
+            this.MaxSpellLevelLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // MaxSpellLevelUpDown
+            // 
+            this.MaxSpellLevelUpDown.Location = new System.Drawing.Point(4, 140);
+            this.MaxSpellLevelUpDown.Maximum = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            this.MaxSpellLevelUpDown.Name = "MaxSpellLevelUpDown";
+            this.MaxSpellLevelUpDown.Size = new System.Drawing.Size(254, 23);
+            this.MaxSpellLevelUpDown.TabIndex = 2;
+            this.MaxSpellLevelUpDown.Value = new decimal(new int[] {
+            9,
+            0,
+            0,
+            0});
+            // 
             // CastingTimeLabel
             // 
             this.CastingTimeLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
@@ -141,11 +169,13 @@
             // 
             // CastingTimeComboBox
             // 
+            this.CastingTimeComboBox.DisplayMember = "Any";
             this.CastingTimeComboBox.FormattingEnabled = true;
             this.CastingTimeComboBox.Items.AddRange(new object[] {
-            "Action",
-            "Bonus Action",
-            "Reaction",
+            "Any",
+            "1 Action",
+            "1 Bonus Action",
+            "1 Reaction",
             "1 Minute",
             "10 Minutes",
             "1 Hour",
@@ -171,15 +201,15 @@
             // 
             this.SpellSchoolComboBox.FormattingEnabled = true;
             this.SpellSchoolComboBox.Items.AddRange(new object[] {
-            "Action",
-            "Bonus Action",
-            "Reaction",
-            "1 Minute",
-            "10 Minutes",
-            "1 Hour",
-            "8 Hours",
-            "12 Hours",
-            "24 Hours"});
+            "Any",
+            "Conjuration",
+            "Necromancy",
+            "Evocation",
+            "Abjuration",
+            "Transmutation",
+            "Divination",
+            "Enchantment",
+            "Illusion"});
             this.SpellSchoolComboBox.Location = new System.Drawing.Point(4, 250);
             this.SpellSchoolComboBox.Name = "SpellSchoolComboBox";
             this.SpellSchoolComboBox.Size = new System.Drawing.Size(254, 23);
@@ -200,18 +230,20 @@
             this.ComponetsCheckedListBox.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.ComponetsCheckedListBox.FormattingEnabled = true;
             this.ComponetsCheckedListBox.Items.AddRange(new object[] {
+            "Any Componets",
             "V",
             "S",
             "M"});
             this.ComponetsCheckedListBox.Location = new System.Drawing.Point(4, 305);
             this.ComponetsCheckedListBox.Name = "ComponetsCheckedListBox";
-            this.ComponetsCheckedListBox.Size = new System.Drawing.Size(254, 64);
+            this.ComponetsCheckedListBox.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.ComponetsCheckedListBox.Size = new System.Drawing.Size(254, 84);
             this.ComponetsCheckedListBox.TabIndex = 4;
             // 
             // CasterClassLable
             // 
             this.CasterClassLable.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.CasterClassLable.Location = new System.Drawing.Point(4, 372);
+            this.CasterClassLable.Location = new System.Drawing.Point(4, 392);
             this.CasterClassLable.Name = "CasterClassLable";
             this.CasterClassLable.Size = new System.Drawing.Size(254, 26);
             this.CasterClassLable.TabIndex = 0;
@@ -222,22 +254,24 @@
             // 
             this.ClassComboBox.FormattingEnabled = true;
             this.ClassComboBox.Items.AddRange(new object[] {
-            "Action",
-            "Bonus Action",
-            "Reaction",
-            "1 Minute",
-            "10 Minutes",
-            "1 Hour",
-            "8 Hours",
-            "12 Hours",
-            "24 Hours"});
-            this.ClassComboBox.Location = new System.Drawing.Point(4, 401);
+            "Any",
+            "Bard",
+            "Cleric",
+            "Druid",
+            "Paladin",
+            "Ranger",
+            "Sorcerer",
+            "Warlock",
+            "Wizard",
+            "Artificer"});
+            this.ClassComboBox.Location = new System.Drawing.Point(4, 421);
             this.ClassComboBox.Name = "ClassComboBox";
             this.ClassComboBox.Size = new System.Drawing.Size(254, 23);
             this.ClassComboBox.TabIndex = 3;
             // 
             // SearchButton
             // 
+            this.SearchButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.SearchButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.SearchButton.Location = new System.Drawing.Point(15, 564);
             this.SearchButton.Name = "SearchButton";
@@ -249,10 +283,11 @@
             // 
             // ShowDiscriptionButton
             // 
+            this.ShowDiscriptionButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.ShowDiscriptionButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.ShowDiscriptionButton.Location = new System.Drawing.Point(838, 564);
+            this.ShowDiscriptionButton.Location = new System.Drawing.Point(1004, 564);
             this.ShowDiscriptionButton.Name = "ShowDiscriptionButton";
-            this.ShowDiscriptionButton.Size = new System.Drawing.Size(533, 29);
+            this.ShowDiscriptionButton.Size = new System.Drawing.Size(640, 29);
             this.ShowDiscriptionButton.TabIndex = 6;
             this.ShowDiscriptionButton.Text = "Show Spell Discription";
             this.ShowDiscriptionButton.UseVisualStyleBackColor = true;
@@ -260,10 +295,11 @@
             // 
             // AddToSpellBookButton
             // 
+            this.AddToSpellBookButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.AddToSpellBookButton.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.AddToSpellBookButton.Location = new System.Drawing.Point(281, 564);
             this.AddToSpellBookButton.Name = "AddToSpellBookButton";
-            this.AddToSpellBookButton.Size = new System.Drawing.Size(551, 29);
+            this.AddToSpellBookButton.Size = new System.Drawing.Size(717, 29);
             this.AddToSpellBookButton.TabIndex = 7;
             this.AddToSpellBookButton.Text = "Add To Spell Book";
             this.AddToSpellBookButton.UseVisualStyleBackColor = true;
@@ -279,33 +315,11 @@
             this.SearchOptionsLabel.TabIndex = 8;
             this.SearchOptionsLabel.Text = "Spell Search Options:";
             // 
-            // MaxSpellLevelUpDown
-            // 
-            this.MaxSpellLevelUpDown.Location = new System.Drawing.Point(4, 140);
-            this.MaxSpellLevelUpDown.Maximum = new decimal(new int[] {
-            9,
-            0,
-            0,
-            0});
-            this.MaxSpellLevelUpDown.Name = "MaxSpellLevelUpDown";
-            this.MaxSpellLevelUpDown.Size = new System.Drawing.Size(254, 23);
-            this.MaxSpellLevelUpDown.TabIndex = 2;
-            // 
-            // MaxSpellLevelLabel
-            // 
-            this.MaxSpellLevelLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.MaxSpellLevelLabel.Location = new System.Drawing.Point(4, 111);
-            this.MaxSpellLevelLabel.Name = "MaxSpellLevelLabel";
-            this.MaxSpellLevelLabel.Size = new System.Drawing.Size(254, 26);
-            this.MaxSpellLevelLabel.TabIndex = 0;
-            this.MaxSpellLevelLabel.Text = "Maximum Spell Level:";
-            this.MaxSpellLevelLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // SearchDisplay
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1381, 605);
+            this.ClientSize = new System.Drawing.Size(1656, 605);
             this.Controls.Add(this.SearchOptionsLabel);
             this.Controls.Add(this.AddToSpellBookButton);
             this.Controls.Add(this.ShowDiscriptionButton);
@@ -314,6 +328,7 @@
             this.Controls.Add(this.SearchButton);
             this.Name = "SearchDisplay";
             this.Text = "SearchDisplay";
+            this.Load += new System.EventHandler(this.SearchDisplay_Load);
             ((System.ComponentModel.ISupportInitialize)(this.SpellDataGridView)).EndInit();
             this.SearchMenuPanel.ResumeLayout(false);
             this.SearchMenuPanel.PerformLayout();

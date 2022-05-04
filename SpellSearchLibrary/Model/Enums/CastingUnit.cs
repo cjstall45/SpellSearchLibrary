@@ -11,6 +11,7 @@ namespace SpellSearchLibrary.Model.Enums
         bonus,
         action,
         minute,
-        hour
+        hour,
+        reaction
     }
 }

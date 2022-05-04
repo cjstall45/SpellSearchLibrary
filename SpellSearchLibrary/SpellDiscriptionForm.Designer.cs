@@ -47,9 +47,12 @@
             // 
             this.SpellDiscriptionTextBox.AcceptsReturn = true;
             this.SpellDiscriptionTextBox.AcceptsTab = true;
+            this.SpellDiscriptionTextBox.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.SpellDiscriptionTextBox.Location = new System.Drawing.Point(12, 50);
             this.SpellDiscriptionTextBox.Multiline = true;
             this.SpellDiscriptionTextBox.Name = "SpellDiscriptionTextBox";
+            this.SpellDiscriptionTextBox.ReadOnly = true;
+            this.SpellDiscriptionTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.SpellDiscriptionTextBox.Size = new System.Drawing.Size(776, 352);
             this.SpellDiscriptionTextBox.TabIndex = 1;
             // 

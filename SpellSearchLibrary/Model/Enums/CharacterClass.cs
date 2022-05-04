@@ -9,7 +9,7 @@ namespace SpellSearchLibrary.Model.Enums
         Bard,
         Cleric,
         Druid,
-        Palidin,
+        Paladin,
         Ranger,
         Sorcerer,
         Warlock,
