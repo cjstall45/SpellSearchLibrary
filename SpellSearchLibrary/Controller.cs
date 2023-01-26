@@ -17,13 +17,17 @@ namespace SpellSearchLibrary
 
         public Controller()
         {
-            var rawJson = GetSpells().Result;
+            var rawJson = GetSpells("https://raw.githubusercontent.com/ariestae/5etools/master/data/spells/spells-phb.json").Result;
+            ParseSpells(JsonSerializer.Deserialize<JsonElement>(rawJson));
+            rawJson = GetSpells("https://raw.githubusercontent.com/ariestae/5etools/master/data/spells/spells-xge.json").Result;
+            ParseSpells(JsonSerializer.Deserialize<JsonElement>(rawJson));
+            rawJson = GetSpells("https://raw.githubusercontent.com/ariestae/5etools/master/data/spells/spells-scag.json").Result;
             ParseSpells(JsonSerializer.Deserialize<JsonElement>(rawJson));
         }
 
-        private async Task<string> GetSpells()
+        private async Task<string> GetSpells(string url)
         {
-            return await client.GetStringAsync("https://raw.githubusercontent.com/5etools-mirror-1/5etools-mirror-1.github.io/master/data/spells/spells-phb.json");
+            return await client.GetStringAsync(url);
         }
 
         private void ParseSpells(JsonElement data)
